@@ -6,6 +6,7 @@ public class Admin {
 		for (Property property : properties) {
 				totalRent += property.computeRent();
 		}
+		//tested git
 		return totalRent;
 	}
 }
