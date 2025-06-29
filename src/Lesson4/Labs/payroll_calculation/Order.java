@@ -1,4 +1,4 @@
-package Lesson5.Labs.payroll_calculation;
+package Lesson4.Labs.payroll_calculation;
 
 import java.time.LocalDate;
 

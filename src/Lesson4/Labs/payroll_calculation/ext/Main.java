@@ -1,6 +1,6 @@
-package Lesson5.Labs.payroll_calculation.ext;
+package Lesson4.Labs.payroll_calculation.ext;
 
-import Lesson5.Labs.payroll_calculation.*;
+import Lesson4.Labs.payroll_calculation.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

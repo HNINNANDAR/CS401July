@@ -1,4 +1,4 @@
-package Lesson5.Labs.prob4E;
+package Lesson4.Labs.prob4E;
 
 import java.util.List;
 

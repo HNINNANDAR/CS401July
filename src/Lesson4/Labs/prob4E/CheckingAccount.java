@@ -1,4 +1,4 @@
-package Lesson5.Labs.prob4E;
+package Lesson4.Labs.prob4E;
 
 public class CheckingAccount extends Account{
     private String accId;
