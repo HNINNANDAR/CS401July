@@ -1,5 +1,7 @@
 package Lesson2.lecture.unidirectional.one_to_one;
 
+import Lesson2.lecture.bidirectional.one_to_one.Item;
+
 import java.util.ArrayList;
 import java.util.List;
 
