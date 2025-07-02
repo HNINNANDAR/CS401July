@@ -1,0 +1,185 @@
+Simple Queries
+
+6.7 List full details of all hotels.
+ MySQL  localhost  hoteldb  SQL > select * from Hotel;
++---------+------------------+--------+
+| hotelNo | hotelName        | city   |
++---------+------------------+--------+
+| H01     | Grosvenor Hotel  | London |
+| H02     | Ocean View       | Miami  |
+| H03     | Mountain Retreat | Denver |
+
+6.8 List full details of all hotels in London.
+ MySQL  localhost  hoteldb  SQL > SELECT * FROM Hotel WHERE city = 'London';
++---------+-----------------+--------+
+| hotelNo | hotelName       | city   |
++---------+-----------------+--------+
+| H01     | Grosvenor Hotel | London |
++---------+-----------------+--------+
+
+6.9 List the names and addresses of all guests living in London, alphabetically ordered by name.
+ MySQL  localhost  hoteldb  SQL > SELECT guestName, guestAddress FROM Guest WHERE guestAddress like '%London%' ORDER BY guestName;
++--------------+----------------------+
+| guestName    | guestAddress         |
++--------------+----------------------+
+| Alice Smith  | 23 London Rd, London |
+| Clara Oswald | 31 Queen St, London  |
++--------------+----------------------+
+
+6.10 List all double or family rooms with a price below £40.00 per night, in ascending order of price.
+ MySQL  localhost  hoteldb  SQL > SELECT * FROM Room WHERE (type = 'Double' or type = 'Family') and price < 40 ORDER BY price;
++--------+---------+--------+-------+
+| roomNo | hotelNo | type   | price |
++--------+---------+--------+-------+
+| 102    | H01     | Double |    35 |
+| 103    | H01     | Family |    39 |
++--------+---------+--------+-------+
+
+6.11 List the bookings for which no dateTo has been specified.
+ MySQL  localhost  hoteldb  SQL > SELECT * FROM Booking
+                               -> WHERE dateTo is null;
++---------+---------+------------+--------+--------+
+| hotelNo | guestNo | dateForm   | dateTo | roomNo |
++---------+---------+------------+--------+--------+
+| H01     | G03     | 2024-08-02 | NULL   | 103    |
++---------+---------+------------+--------+--------+
+
+Aggregate functions
+
+6.12 How many hotels are there?
+ MySQL  localhost  hoteldb  SQL > SELECT COUNT(*) AS no_of_hotel
+                               -> FROM Hotel;
++-------------+
+| no_of_hotel |
++-------------+
+|           3 |
+
+6.13 What is the average price of a room?
+ MySQL  localhost  hoteldb  SQL > SELECT AVG(price) as average_price
+                               -> FROM Room;
++--------------------+
+| average_price      |
++--------------------+
+| 63.166666666666664 |
++--------------------+
+
+6.14 What is the total revenue per night from all double rooms?
+ MySQL  localhost  hoteldb  SQL > SELECT SUM(price) as total_revenue_per_night
+                               -> FROM Room
+                               -> WHERE type = 'Double';
++-------------------------+
+| total_revenue_per_night |
++-------------------------+
+|                     220 |
++-------------------------+
+
+6.15 How many different guests have made bookings for August?
+ MySQL  localhost  hoteldb  SQL > SELECT COUNT( DISTINCT guestNo) as guest_count_auguest FROM Booking WHERE MONTH(dateFrom) = 8 or MONTH(dateTo) = 8;
++---------------------+
+| guest_count_auguest |
++---------------------+
+|                   3 |
++---------------------+
+
+Subqueries and joins
+
+6.16 List the price and type of all rooms at the Grosvenor Hotel.
+ MySQL  localhost  hoteldb  SQL > SELECT price, type
+                               -> FROM Room JOIN Hotel ON Hotel.hotelNo = Room.hotelNo
+                               -> WHERE hotelName = 'Grosvenor Hotel';
++-------+--------+
+| price | type   |
++-------+--------+
+|    50 | Single |
+|    35 | Double |
+|    39 | Family |
+
+6.17 List all guests currently staying at the Grosvenor Hotel.
+ MySQL  localhost  hoteldb  SQL > SELECT DISTINCT g.*
+                               -> FROM Guest g
+                               -> JOIN Booking b ON g.guestNo = b.guestNo
+                               -> JOIN Hotel h ON b.hotelNo = h.hotelNo
+                               -> WHERE h.hotelName = 'Grosvenor Hotel'
+                               ->   AND (
+                               ->     (b.dateFrom <= '2025-07-01' AND (b.dateTo >= '2025-07-01' OR b.dateTo IS NULL))
+                               ->   );
++---------+--------------+---------------------+
+| guestNo | guestName    | guestAddress        |
++---------+--------------+---------------------+
+| G03     | Clara Oswald | 31 Queen St, London |
++---------+--------------+---------------------+
+
+6.18 List the details of all rooms at the Grosvenor Hotel, including the name of the guest staying in the room, if the room is occupied.
+ MySQL  localhost  hoteldb  SQL > SELECT
+                               ->     r.roomNo,
+                               ->     r.type,
+                               ->     r.price,
+                               ->     g.guestName
+                               -> FROM room r
+                               -> JOIN Hotel h ON r.hotelNo = h.hotelNo
+                               -> JOIN Booking b ON r.roomNo = b.roomNo
+                               -> JOIN Guest g ON g.guestNo = b.guestNo
+                               -> WHERE h.hotelName = 'Grosvenor Hotel'
+                               ->   AND b.dateFrom <= '2025-07-01'
+                               ->   AND (b.dateTo >= '2025-07-01' OR b.dateTo IS NULL);
++--------+--------+-------+--------------+
+| roomNo | type   | price | guestName    |
++--------+--------+-------+--------------+
+| 103    | Family |    39 | Clara Oswald |
++--------+--------+-------+--------------+
+
+6.19 What is the total income from bookings for the Grosvenor Hotel today?
+ MySQL  localhost  hoteldb  SQL > SELECT SUM(r.price) AS total_revenue
+                               -> FROM Room AS r
+                               -> JOIN Hotel AS h ON r.hotelNo = h.hotelNo
+                               -> JOIN Booking AS b ON r.roomNo = b.roomNo
+                               -> WHERE h.hotelName = 'Grosvenor Hotel'
+                               ->   AND b.dateFrom <= '2025-07-01'
+                               ->   AND (b.dateTo >= '2025-07-01' OR b.dateTo IS NULL);
++---------------+
+| total_revenue |
++---------------+
+|            39 |
++---------------+
+1 row in set (0.0205 sec)
+
+Grouping
+
+6.22 List the number of rooms in each hotel.
+ MySQL  localhost  hoteldb  SQL > SELECT COUNT(r.roomNo) as no_of_rooms
+                               -> FROM Room as r
+                               -> JOIN Hotel as h ON r.hotelNo = h.hotelNo
+                               -> GROUP BY h.hotelNo;
++-------------+
+| no_of_rooms |
++-------------+
+|           3 |
+|           2 |
+|           1 |
++-------------+
+
+6.23 List the number of rooms in each hotel in London.
+ MySQL  localhost  hoteldb  SQL > SELECT COUNT(r.roomNo) as no_of_rooms FROM Room as r JOIN Hotel as h ON r.hotelNo = h.hotelNo WHERE city = 'London' GROUP BY h.hotelNo;
++-------------+
+| no_of_rooms |
++-------------+
+|           3 |
++-------------+
+
+6.24 What is the average number of bookings for each hotel in August?
+ MySQL  localhost  hoteldb  SQL > SELECT AVG(booking_count) AS avg_bookings_per_hotel
+                               -> FROM (
+                               ->     SELECT COUNT(*) AS booking_count
+                               ->     FROM Booking b
+                               ->     JOIN Hotel h ON b.hotelNo = h.hotelNo
+                               ->     WHERE MONTH(b.dateFrom) = 8 OR MONTH(b.dateTo) = 8
+                               ->     GROUP BY b.hotelNo
+                               -> ) AS hotel_bookings;
++------------------------+
+| avg_bookings_per_hotel |
++------------------------+
+|                 2.0000 |
++------------------------+
+1 row in set (0.0610 sec)
+
+
