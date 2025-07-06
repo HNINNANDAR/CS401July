@@ -1,0 +1,2 @@
+Program is incorrect because the equals method was not override correctly.
+The method should override equals(Object obj) with the exact signature from the Object class to ensure proper equality checks.

@@ -1,0 +1,4 @@
+This program includes the visited field in its overridden equals and hashCode methods.
+As a result, even if two Employee objects have the same name and salary, they are considered different if their visited flags differ.
+
+

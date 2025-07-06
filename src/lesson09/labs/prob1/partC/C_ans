@@ -1,0 +1,1 @@
+This program will not correctly remove duplicates because hashCode was not overridden properly.
