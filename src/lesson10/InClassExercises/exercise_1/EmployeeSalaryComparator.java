@@ -1,3 +1,5 @@
+package lesson10.InClassExercises.exercise_1;
+
 import java.util.Comparator;
 
 public class EmployeeSalaryComparator implements Comparator<Employee> {

@@ -1,3 +1,4 @@
+package lesson10.InClassExercises.exercise_1;
 public class Employee {
 	String name;
 	int salary;
