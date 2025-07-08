@@ -1,7 +1,6 @@
-package lesson10.labs.prob6;
+package lesson10.labs.prob5;
 
 import java.util.function.*;
-import java.util.Comparator;
 
 class Employee {
 	private String name;

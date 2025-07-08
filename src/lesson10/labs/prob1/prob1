@@ -1,0 +1,20 @@
+a)
+i)
+There's no parameters
+Free variables are s and t
+
+ii)
+Parameters are s and t
+Free variable is ignoredCase
+
+
+b)
+i) Rewrite this method reference as a lambda expression
+    () -> Math.Random
+
+ii) Please check the prob1_b_ii class
+
+iii) Please check the prob1_b_iii class
+
+
+
