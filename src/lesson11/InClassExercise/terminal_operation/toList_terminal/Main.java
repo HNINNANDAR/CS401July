@@ -1,4 +1,4 @@
-package lesson11.InClassExercise.toList_terminal;
+package lesson11.InClassExercise.terminal_operation.toList_terminal;
 
 import java.util.List;
 

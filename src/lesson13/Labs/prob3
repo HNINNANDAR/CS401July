@@ -1,0 +1,10 @@
+ List<?>
+                          /   \
+                         /     \
+          List<? extends Number>   List<? super Number>
+             /          \                /
+List<? extends Integer>  List<Number>  /
+          |                          /
+   List<Integer>         List<? super Integer>
+                                 |
+                           List<Object>

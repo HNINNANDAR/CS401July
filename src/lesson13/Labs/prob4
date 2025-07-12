@@ -1,0 +1,5 @@
+a)
+nums.add(3.14);
+Cannot add anything to <? extends Number> except null, because compiler doesn't know the exact subtype
+
+b)

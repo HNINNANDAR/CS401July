@@ -1,0 +1,9 @@
+a)
+List<Number> nums = ints;
+Generic cannot be subtype, List<Integer> is not a subtype of List<Number>
+
+
+b)
+List<? extends Number> nums = ints;
+Cannot add anything to <? extends Number> except null, because compiler doesn't know the exact subtype
+
